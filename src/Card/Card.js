@@ -9,7 +9,10 @@ export default class Card extends Component {
     }
         render(){
             return (
-                <div className="card">Card</div>
+                <div className="card">
+                    <div className="card__info">Info</div>
+                    <div className="card__order-summary">Summary</div>
+                </div>
             )
         }
 }
