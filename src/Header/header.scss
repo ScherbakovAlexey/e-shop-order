@@ -1,0 +1,39 @@
+$base-color: #5A1094;
+
+.header{
+    color: $base-color;
+    display: flex;
+    align-items: center;
+    //justify-content: center; 
+    height: 50px;
+    width: 100%;
+    background-color: white;
+    position: absolute;
+    top: 0;
+    font-size: 16px;
+}
+.header__border{
+    height: 51px;
+    width: 100%;
+    //background-color: red;
+    background: linear-gradient(to left, #7E00E8, #FF1876, #BB0CB2);
+    opacity: 0.5;
+}
+.header__icon{
+    margin-right: 10px;
+    margin-left: 23%;
+}
+.header__basket{
+    margin-right: 10px;
+    color: #FF1876;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    margin-left: auto;
+    margin-right: 23%;
+}
+.header__basket_full{
+    height: 30px;
+    padding-bottom: 7px;
+    margin-left: 7px;
+}
