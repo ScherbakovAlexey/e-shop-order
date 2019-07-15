@@ -19,9 +19,10 @@ class App extends React.Component {
       phone: '+7(987)123-77-88',
       cardNum: '4012 8888 8888 1881',
       geolocationEnabled: false,
-      basketEmpty: false
+      basketEmpty: false,
+      countries: []
     }
-    //this.brDec = this.brDec.bind(this);
+    this.handleBasket = this.handleBasket.bind(this);
   }
 
   componentWillMount(){
@@ -71,13 +72,37 @@ class App extends React.Component {
       })
       .catch((err) => console.error(err));
     }
+
+
+    /// get countries
+    
+    fetch('https://htmlweb.ru/geo/api.php?location&json&short&api_key=1a019db68f398a4a30afcb58842c4403')
+    .then((res)=>{
+      res.json()
+        .then(response => {
+          console.log(response);
+          let countries = [];
+          for (let key in response){countries.push(response[key])}
+          this.setState({
+            countries: countries
+          });
+        })
+    })
+
   }
+
+  handleBasket(){
+    this.setState({
+      basketEmpty: true
+    });
+  }
+
   render(){
     return (
       <div className="App">
        {/*{this.state.city} {this.state.postal_code}*/}
        <Header basketEmpty={this.state.basketEmpty}/>
-       <Card info={this.state}/>
+       <Card info={this.state} onSuccess={this.handleBasket}/>
       </div>
     );
   }

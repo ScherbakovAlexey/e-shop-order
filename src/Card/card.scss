@@ -1,3 +1,8 @@
+$base-color: #5A1094;
+$base-gray-color: #777879;
+$base-fontsize: 16px;
+$small-fontsize: 12px;
+
 .card{
     background: linear-gradient(to top left, #FEFEFE/*red*/, white);
     width: 700px;
@@ -13,9 +18,168 @@
     width: 400px;
     height: 100%;
     background-color: transparent;
-    padding-top: 20px;
+    padding-top: 10px;
+    padding-left: 40px;
+    //padding-right: 40px;
 }
 .card__order-summary{
     @extend .card__info;
     width: 300px;
+}
+
+input[type=text],[type=number],[type=tel]{
+    height: 30px;
+    width: 95%;
+    border: 1px solid #DEDCDC;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: $base-fontsize;
+    margin: 5px 5px 5px 0;
+}
+.input-invalid{
+    background-color:rgba(248, 231, 28, 0.1);// #F8E71C;
+}
+.input-valid{
+    background-color: white;
+}
+select{
+    @extend input[type=text];
+    height: 42px;
+    color: $base-gray-color;
+    .option-disabled{
+        color: $base-gray-color;
+    }
+    .option-enabled{
+        color: black;
+    }
+}
+.select-en{
+    color: black;
+}
+.select-dis{
+    color: $base-gray-color;
+}
+
+.daytime-phone{
+    display: flex;
+    input{
+        width: 70%;
+    }
+    p{
+        width: 30%;
+        color: $base-gray-color;
+        font-size: $small-fontsize;
+        padding-left: 5px;
+    }
+}
+
+.country{
+    display: flex;
+    
+    select{
+        width: 70%;
+    }
+    input{
+        width: 30%;
+    }
+}
+
+h1, h2 {
+    color: $base-color;
+    font-weight: normal;
+}
+h1{
+    font-size: 26px;
+}
+h2{
+    font-size: $base-fontsize;
+    margin-bottom: 0;
+}
+
+.city{
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    img{
+        position: absolute;
+        height: 20px;
+        right: 15px;
+        top: 15px;
+    }
+}
+
+input[type=submit]{
+    color: white;
+    font-size: $base-fontsize;
+    background-color: $base-color;
+    border-radius: 5px;
+    border: none;
+    height: 45px;
+    width: 66%;
+    margin-top: 20px
+}
+
+.status{
+    display: flex;
+    align-items: center;
+    font-size: $small-fontsize;
+    .active{
+        color: $base-color;
+    }
+    .base{
+        color: $base-gray-color;
+    }
+    img{
+        padding: 15px;
+    }
+}
+
+.clickable{
+    color: $base-color;
+    font-size: $small-fontsize;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.biling__same{
+    @extend .clickable;
+    float: right;
+    padding: 10px;
+}
+
+.pay-secure{
+    color: $base-gray-color;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    img{
+        height: 30px;
+    }
+}
+
+.card-attributes{
+    display: flex;
+    .card-attributes__expdate{
+        width: 30%;
+    }
+    .card-attributes__seccode{
+        width: 30%;
+        margin-left: 30px;
+    }
+}
+
+.print{
+    @extend .clickable;
+    font-weight: bold;
+}
+
+.email{
+    color: $base-color;
+}
+
+.card-success{
+    padding-top: 50px;
+    p{
+        margin-top: 30px;
+    }
 }
