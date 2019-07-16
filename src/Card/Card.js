@@ -1,20 +1,20 @@
 import React, {Component} from 'react'
-import './card.scss'
-import Status from './Status'
+import './styles/card.scss'
 import ShippingCard from './ShippingCard'
 import BillingCard from './BillingCard'
 import PaymentCard from './PaymentCard'
 import SuccessCard from './SuccessCard'
-import geoEn from './geo-en.png'
-import geoDis from './geo-dis.png'
 
 export default class Card extends Component {
     constructor(props){
         super(props)
         this.state = {
-            status: 'shipping'//'success'//'payment'//'billing'//'shipping'
+            status: 'shipping',//'success'//'payment'//'billing'//'shipping'
+            email: '',
+            shippingState: {}
         }
         this.statusChange = this.statusChange.bind(this);
+        this.emailChange = this.emailChange.bind(this);
     }
     componentDidMount(){
         //document.getElementById('fullname_inp').setCustomValidity('Please enter recipient full name');
@@ -31,20 +31,28 @@ export default class Card extends Component {
         // }
     }
 
-    statusChange(status){
+    statusChange(status,state){
+        //console.log('STATE: ', state);
         this.setState({
-            status: status
+            status: status,
+            shippingState: state
         });
-        if (status == 'success') this.props.onSuccess();
+        if (status === 'success') this.props.onSuccess();
+    }
+    emailChange(email){
+        this.setState({
+            email: email
+        });
     }
 
         render(){
            // const geoImg = this.props.info.geolocationEnabled ? geoEn : geoDis;
             switch (this.state.status){
-                case 'shipping': return <ShippingCard geoEn={this.props.info.geolocationEnabled} countries={this.props.info.countries} onStatusChange={this.statusChange}/>
-                case 'billing': return <BillingCard geoEn={this.props.info.geolocationEnabled} countries={this.props.info.countries} onStatusChange={this.statusChange}/>
+                case 'shipping': return <ShippingCard info={this.props.info} onStatusChange={this.statusChange}/>
+                case 'billing': return <BillingCard geoEn={this.props.info.geolocationEnabled} countries={this.props.info.countries} onStatusChange={this.statusChange} info={this.state.shippingState} onEmailChange={this.emailChange}/>
                 case 'payment': return <PaymentCard onStatusChange={this.statusChange}/>
-                case 'success': return <SuccessCard email={this.props.info.email} onStatusChange={this.statusChange}/>
+                case 'success': return <SuccessCard email={this.state.email} onStatusChange={this.statusChange}/>
+                default: return <ShippingCard info={this.props.info} onStatusChange={this.statusChange}/>
             }
           /*  return (
                 <div className="card">

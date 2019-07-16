@@ -16,11 +16,11 @@ export default class Header extends Component {
                 <React.Fragment>
                 <div className="header__border"></div>
                 <div className="header">
-                    <img className="header__icon" src={icon}></img>
+                    <img className="header__icon" src={icon} alt='img'></img>
                     Front-end Developer Test Task
                     <div className="header__basket">
                         cart
-                        <img className="header__basket_full" src={basketImg}></img>
+                        <img className="header__basket_full" src={basketImg} alt='img'></img>
                     </div>
                 </div>
                 </React.Fragment>

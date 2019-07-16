@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import './card.scss'
+import './styles/card.scss'
 import Status from './Status'
-import geoEn from './geo-en.png'
-import geoDis from './geo-dis.png'
+import Summary from './Summary'
+import geoEn from './img/geo-en.png'
+import geoDis from './img/geo-dis.png'
 
 export default class ShippingCard extends Component {
     constructor(props){
@@ -14,16 +15,17 @@ export default class ShippingCard extends Component {
             phone: '',
             phoneValid: '',
             street: '',
-            streetValid: '',
+            streetValid: '' ,
             address: '',
             addressValid: true,
             city: '',
             cityValid: '',
-            country: '',
+            country: 'Country',
             countryValid: '',
             zip: '',
             zipValid: '',
-            formValid: ''
+            formValid: '',
+            tooltip: ''
         }
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,10 +35,16 @@ export default class ShippingCard extends Component {
         this.onAddressChange = this.onAddressChange.bind(this);
         this.onCityChange = this.onCityChange.bind(this);
         this.onZipChange = this.onZipChange.bind(this);
+        this.validateName = this.validateName.bind(this);
+        this.validatePhone = this.validatePhone.bind(this);
+        this.validateStreet = this.validateStreet.bind(this);
+        this.validateCity = this.validateCity.bind(this);
+        this.validateZip = this.validateZip.bind(this);
     }
 
-    handleSelectChange(){
+    handleSelectChange(e){
         this.setState({
+            country: e.target.value,
             countrySelectActive: true
         });
         this.setState({countryValid: true});
@@ -45,8 +53,8 @@ export default class ShippingCard extends Component {
     handleSubmit(e){
         e.preventDefault();
         if (this.state.nameValid && this.state.phoneValid && this.state.streetValid &&
-            this.state.addressValid && this.state.cityValid && this.state.zipValid){
-                this.props.onStatusChange('billing');
+            this.state.addressValid && this.state.cityValid && this.state.countryValid && this.state.zipValid){
+                this.props.onStatusChange('billing',this.state);
             } else {
                 this.setState({
                     nameValid: !this.state.nameValid ? false : true,
@@ -61,54 +69,154 @@ export default class ShippingCard extends Component {
     }
 
     onNameChange(e){
-        if (e.target.value.length > 2){
-            this.setState({nameValid: true});
+        if (this.validateName(e.target.value)) {
+            this.setState({
+                name: e.target.value,
+                nameValid: true
+            });
         } else {
-            this.setState({nameValid: false});
+            this.setState({
+                name: e.target.value,
+                nameValid: false
+            });
         }
+    }
+    validateName(value){
+        if (value.length > 2){
+            return true
+        } else return false
     }
     onPhoneChange(e){
-        const phone =  /^((\+7|7|8)+([0-9]){10})$/;
-        if (e.target.value.match(phone)){
-            this.setState({phoneValid: true});
+        if (this.validatePhone(e.target.value)){
+            this.setState({
+                phone: e.target.value,
+                phoneValid: true
+            });
         } else {
-            this.setState({phoneValid: false});
+            this.setState({
+                phone: e.target.value,
+                phoneValid: false
+            });
         }
+    }
+    validatePhone(value){
+        const phone =  /^((\+7|7|8)+([0-9]){10})$/;
+        if (value.match(phone)){
+            return true
+        } else return false
     }
     onStreetChange(e){
-        if (e.target.value.length > 2){
-            this.setState({streetValid: true});
+        if (this.validateStreet(e.target.value)){
+            this.setState({
+                street: e.target.value,
+                streetValid: true
+            });
         } else {
-            this.setState({streetValid: false});
+            this.setState({
+                street: e.target.value,
+                streetValid: false
+            });
         }
+    }
+    validateStreet(value){
+        if (value.length > 2){
+           return true
+        } else return false
     }
     onAddressChange(e){
-        this.setState({addressValid: true});
+        this.setState({
+            address: e.target.value,
+            addressValid: true
+        });
     }
     onCityChange(e){
-        if (e.target.value.length > 2){
-            this.setState({cityValid: true});
+        if (this.validateCity(e.target.value)){
+            this.setState({
+                city: e.target.value,
+                cityValid: true
+            });
         } else {
-            this.setState({cityValid: false});
+            this.setState({
+                city: e.target.value,
+                cityValid: false
+            });
         }
+    }
+    validateCity(value){
+        if (value.length > 2){
+            return true
+        } else return false
     }
     onZipChange(e){
-        const zip = /^[0-9]{6}(?:-[0-9]{4})?$/;
-        if (e.target.value.match(zip)){
-            this.setState({zipValid: true});
+        if (this.validateZip(e.target.value)){
+            this.setState({
+                zip: e.target.value,
+                zipValid: true
+            });
         } else {
-            this.setState({zipValid: false});
+            this.setState({
+                zip: e.target.value,
+                zipValid: false
+            });
         }
     }
-
+    validateZip(value){
+        const zip = /^[0-9]{6}(?:-[0-9]{4})?$/;
+        if (value.match(zip)){
+            return true
+        } else return false
+    }
+    componentDidUpdate(oldProps) {
+        if (oldProps.info.street !== this.props.info.street) {
+            const street = this.props.info.street ? this.props.info.street : '';
+            const streetValid = this.validateStreet(street) ? true : '';
+            this.setState({
+                street: street,
+                streetValid: streetValid
+            });
+        }
+        if (oldProps.info.house !== this.props.info.house) {
+            const address = this.props.info.house ? this.props.info.house : '';
+            //const streetValid = this.validateStreet(street) ? true : '';
+            this.setState({
+                address: address
+            });
+        }
+        if (oldProps.info.city !== this.props.info.city) {
+            const city = this.props.info.city ? this.props.info.city : '';
+            const cityValid = this.validateCity(city) ? true : '';
+            this.setState({
+                city: city,
+                cityValid: cityValid
+            });
+        }
+        if (oldProps.info.country !== this.props.info.country) {
+            const country = this.props.info.country ? this.props.info.country : '';
+            const countryValid = true;
+            this.setState({
+                country: country,
+                countryValid: countryValid,
+                countrySelectActive: true
+            });
+        }
+        if (oldProps.info.postal_code !== this.props.info.postal_code) {
+            const zip = this.props.info.postal_code ? this.props.info.postal_code : '';
+            const zipValid = this.validateZip(zip) ? true : '';
+            this.setState({
+                zip: zip,
+                zipValid: zipValid
+            });
+        }
+    }
     render(){
-        const geoImg = this.props.geoEn ? geoEn : geoDis;
+        const geoImg = this.props.info.geolocationEnabled ? geoEn : geoDis;
         const options = [];
-        if (this.props.countries) this.props.countries.forEach((item,index)=>{
+        if (this.props.info.countries) this.props.info.countries.forEach((item,index)=>{
             if (typeof item == 'string')
             options.push(<option className="option-enabled" key={index}>{item}</option>);
         });
-        const selectClassName = this.state.countrySelectActive ? 'select-en' : 'select-dis';
+        const selectClassName = (this.state.countrySelectActive ? 'select-en' : 'select-dis') + ' ' +
+                                (this.state.countryValid===false?'input-invalid':'input-valid');
         return(
                 <div className="card">
                     <div className="card__info">
@@ -116,21 +224,50 @@ export default class ShippingCard extends Component {
                         <form>
                             <h1>Shipping Info</h1>
                             <h2>Recipient</h2>
-                            <input type="text" placeholder="Full Name" required onChange={this.onNameChange} className={this.state.nameValid===false?'input-invalid':'input-valid'}/>
-                            <div className="daytime-phone"> <input type="tel" placeholder="Daytime Phone" required onChange={this.onPhoneChange} className={this.state.phoneValid===false?'input-invalid':'input-valid'}/> <p> For delivery questions only </p> </div>
+                            <div className = {this.state.nameValid===false? "tooltip" : ''}>
+                            <input type="text" placeholder="Full Name" required 
+                                onChange={this.onNameChange} 
+                                className={this.state.nameValid===false?'input-invalid':'input-valid'}/>
+                                <span className={this.state.nameValid===false? "tooltiptext" : 'tooltiptext-hidden'}>Please enter recipient full name</span>
+                            </div>
+                            <div className="daytime-phone"> 
+                                <input type="tel" placeholder="Daytime Phone" required 
+                                onChange={this.onPhoneChange} 
+                                className={this.state.phoneValid===false?'input-invalid':'input-valid'}/> 
+                                <p> For delivery questions only </p>
+                            </div>
                             <h2>Address</h2>
-                            <input type="text" placeholder="Street Address" required onChange={this.onStreetChange} className={this.state.streetValid===false?'input-invalid':'input-valid'}/>
-                            <input type="text" placeholder="Apt, Suite, Bldg, Gate Code (optional)" onChange={this.onAddressChange}/>
-                            <div className="city"> <input type="text" placeholder="City" required onChange={this.onCityChange} className={this.state.cityValid===false?'input-invalid':'input-valid'}/> <img src={geoImg}></img> </div>
-                            <div className="country"><select className={selectClassName} onChange={this.handleSelectChange} required className={this.state.countryValid===false?'input-invalid':'input-valid'}>
-                                <option className="option-disabled" selected="selected" disabled>Country</option>
-                                {options}
+                            <input type="text" placeholder="Street Address" required 
+                                value = {this.state.street}
+                                onChange={this.onStreetChange} 
+                                className={this.state.streetValid===false?'input-invalid':'input-valid'}/>
+                            <input type="text" placeholder="Apt, Suite, Bldg, Gate Code (optional)" 
+                                value = {this.state.address}
+                                onChange={this.onAddressChange}/>
+                            <div className="input-with-img"> <input type="text" placeholder="City" required 
+                                value = {this.state.city}
+                                onChange={this.onCityChange} 
+                                className={this.state.cityValid===false?'input-invalid':'input-valid'}/> 
+                                <img src={geoImg} alt='img'></img> 
+                            </div>
+                            <div className="country">
+                                <select required className={selectClassName} 
+                                    value = {this.state.country}
+                                    onChange={this.handleSelectChange} >
+                                    <option className="option-disabled" disabled>Country</option>
+                                    {options}
                                 </select>
-                                <input type="number" placeholder="ZIP" required onChange={this.onZipChange} className={this.state.zipValid===false?'input-invalid':'input-valid'}/></div>
+                                <input type="number" placeholder="ZIP" required 
+                                    value = {this.state.zip}
+                                    onChange={this.onZipChange} 
+                                    className={this.state.zipValid===false?'input-invalid':'input-valid'}/>
+                            </div>
                             <input type="submit" onClick={this.handleSubmit} value="Continue" />
                         </form>
                     </div>
-                    <div className="card__order-summary">Summary</div>
+                    <div className="card__order-summary">
+                        <Summary disabled={false}/>
+                    </div>
                 </div>
         )
     }

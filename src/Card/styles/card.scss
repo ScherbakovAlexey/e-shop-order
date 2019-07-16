@@ -15,16 +15,16 @@ $small-fontsize: 12px;
     display: flex;
 }
 .card__info{
-    width: 400px;
+    width: 370px;
     height: 100%;
     background-color: transparent;
-    padding-top: 10px;
+    //padding-top: 10px;
     padding-left: 40px;
     //padding-right: 40px;
 }
 .card__order-summary{
     @extend .card__info;
-    width: 300px;
+    width: 320px;
 }
 
 input[type=text],[type=number],[type=tel]{
@@ -35,6 +35,11 @@ input[type=text],[type=number],[type=tel]{
     padding: 5px;
     font-size: $base-fontsize;
     margin: 5px 5px 5px 0;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
 .input-invalid{
     background-color:rgba(248, 231, 28, 0.1);// #F8E71C;
@@ -54,7 +59,7 @@ select{
     }
 }
 .select-en{
-    color: black;
+    color: black !important;
 }
 .select-dis{
     color: $base-gray-color;
@@ -96,10 +101,10 @@ h2{
     margin-bottom: 0;
 }
 
-.city{
+.input-with-img{
     position: relative;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    //margin-top: 10px;
+    //margin-bottom: 10px;
     img{
         position: absolute;
         height: 20px;
@@ -107,7 +112,12 @@ h2{
         top: 15px;
     }
 }
-
+.img-visible{
+    visibility: visible;
+}
+.img-hidden{
+    visibility: hidden;
+}
 input[type=submit]{
     color: white;
     font-size: $base-fontsize;
@@ -151,7 +161,7 @@ input[type=submit]{
     color: $base-gray-color;
     display: flex;
     align-items: center;
-    font-size: 15px;
+    font-size: 14px;
     img{
         height: 30px;
     }
@@ -160,10 +170,10 @@ input[type=submit]{
 .card-attributes{
     display: flex;
     .card-attributes__expdate{
-        width: 30%;
+        width: 35%;
     }
     .card-attributes__seccode{
-        width: 30%;
+        width: 35%;
         margin-left: 30px;
     }
 }
@@ -183,3 +193,43 @@ input[type=submit]{
         margin-top: 30px;
     }
 }
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    //border-bottom: 1px dotted black;
+    border: none;
+    width: 100%;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: visible;
+    width: auto;
+    background-color: white;//$base-gray-color;
+    color: red;
+    text-align: center;
+    border-radius: 6px;
+    border: 1px solid $base-gray-color;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 1;
+    transition: opacity 0.3s;
+  }
+  
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -50px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: $base-gray-color transparent transparent transparent;
+  }
+  .tooltiptext-hidden{
+   display: none;   
+  }

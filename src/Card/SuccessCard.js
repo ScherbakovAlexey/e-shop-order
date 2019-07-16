@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import './card.scss'
+import './styles/card.scss'
+import Summary from './Summary'
 
 export default class SuccessCard extends Component {
     constructor(props){
@@ -24,7 +25,9 @@ export default class SuccessCard extends Component {
                             <div onClick={()=>{window.print();}}className="print">Print Recipe</div>
                         </div>
                     </div>
-                    <div className="card__order-summary">Summary</div>
+                    <div className="card__order-summary">
+                        <Summary disabled={true}/>
+                    </div>
                 </div>
         )
     }
