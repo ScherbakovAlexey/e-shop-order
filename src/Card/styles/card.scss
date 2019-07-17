@@ -67,7 +67,7 @@ select{
 
 .daytime-phone{
     display: flex;
-    input{
+    div{
         width: 70%;
     }
     p{
@@ -80,11 +80,11 @@ select{
 
 .country{
     display: flex;
-    
-    select{
+    width: 321px;
+    .tooltip__country{
         width: 70%;
     }
-    input{
+    .tooltip__zip{
         width: 30%;
     }
 }
@@ -225,7 +225,7 @@ input[type=submit]{
     position: absolute;
     top: 100%;
     left: 50%;
-    margin-left: -50px;
+    //margin-left: -50px;
     border-width: 5px;
     border-style: solid;
     border-color: $base-gray-color transparent transparent transparent;

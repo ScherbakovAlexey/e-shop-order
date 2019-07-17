@@ -7,7 +7,6 @@ let countries = require('./countries.json');
 let countries_ru = (countries.map((item)=>{
   return item.title_ru
 })).sort();
-//let countries_ru_sort = countries_ru.sort();
 
 class App extends React.Component {
 
@@ -78,7 +77,6 @@ class App extends React.Component {
       .catch((err) => console.error(err));
     }
 
-
     /// get countries
     //console.log(countries_ru);
     this.setState({
@@ -96,7 +94,6 @@ class App extends React.Component {
     //       });
     //     })
     // })
-
   }
 
   handleBasket(){

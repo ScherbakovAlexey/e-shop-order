@@ -64,6 +64,7 @@ export default class ShippingCard extends Component {
                     cityValid: !this.state.cityValid ? false : true,
                     countryValid: !this.state.countryValid ? false : true,
                     zipValid: !this.state.zipValid ? false : true,
+                    formValid: false
                 });
             }
     }
@@ -167,6 +168,19 @@ export default class ShippingCard extends Component {
         } else return false
     }
     componentDidUpdate(oldProps) {
+        if (document.getElementsByClassName('tooltiptext').length){
+            document.getElementsByClassName('tooltiptext')[0].classList.add("tooltiptext-hidden");
+            document.getElementsByClassName('tooltiptext')[0].classList.remove("tooltiptext");
+            this.setState({
+                formValid: ''
+            });
+        }
+     
+        if (this.state.formValid===false && document.getElementsByClassName('input-invalid').length){
+            document.getElementsByClassName('input-invalid')[0].nextSibling.classList.add("tooltiptext");
+            document.getElementsByClassName('input-invalid')[0].nextSibling.classList.remove("tooltiptext-hidden");
+        }
+        
         if (oldProps.info.street !== this.props.info.street) {
             const street = this.props.info.street ? this.props.info.street : '';
             const streetValid = this.validateStreet(street) ? true : '';
@@ -177,7 +191,6 @@ export default class ShippingCard extends Component {
         }
         if (oldProps.info.house !== this.props.info.house) {
             const address = this.props.info.house ? this.props.info.house : '';
-            //const streetValid = this.validateStreet(street) ? true : '';
             this.setState({
                 address: address
             });
@@ -224,43 +237,66 @@ export default class ShippingCard extends Component {
                         <form>
                             <h1>Shipping Info</h1>
                             <h2>Recipient</h2>
-                            <div className = {this.state.nameValid===false? "tooltip" : ''}>
+
+                            <div className = "tooltip">
                             <input type="text" placeholder="Full Name" required 
                                 onChange={this.onNameChange} 
                                 className={this.state.nameValid===false?'input-invalid':'input-valid'}/>
-                                <span className={this.state.nameValid===false? "tooltiptext" : 'tooltiptext-hidden'}>Please enter recipient full name</span>
+                                <span className={"tooltiptext-hidden"}>Please enter recipient full name</span>
                             </div>
+
                             <div className="daytime-phone"> 
-                                <input type="tel" placeholder="Daytime Phone" required 
-                                onChange={this.onPhoneChange} 
-                                className={this.state.phoneValid===false?'input-invalid':'input-valid'}/> 
+                                <div className = "tooltip">
+                                    <input type="tel" placeholder="Daytime Phone" required 
+                                    onChange={this.onPhoneChange} 
+                                    className={this.state.phoneValid===false?'input-invalid':'input-valid'}/> 
+                                    <span className={"tooltiptext-hidden"}>Please enter recipient phone</span>
+                                </div>
                                 <p> For delivery questions only </p>
                             </div>
                             <h2>Address</h2>
+
+                            <div className = "tooltip">
                             <input type="text" placeholder="Street Address" required 
                                 value = {this.state.street}
                                 onChange={this.onStreetChange} 
                                 className={this.state.streetValid===false?'input-invalid':'input-valid'}/>
+                                 <span className={"tooltiptext-hidden"}>Please enter recipient srteet</span>
+                            </div>
+
                             <input type="text" placeholder="Apt, Suite, Bldg, Gate Code (optional)" 
                                 value = {this.state.address}
                                 onChange={this.onAddressChange}/>
-                            <div className="input-with-img"> <input type="text" placeholder="City" required 
+
+                            <div className="input-with-img">
+                            <div className = "tooltip">
+                            <input type="text" placeholder="City" required 
                                 value = {this.state.city}
                                 onChange={this.onCityChange} 
-                                className={this.state.cityValid===false?'input-invalid':'input-valid'}/> 
+                                className={this.state.cityValid===false?'input-invalid':'input-valid'}/>
+                                <span className={"tooltiptext-hidden"}>Please enter city</span>
                                 <img src={geoImg} alt='img'></img> 
                             </div>
+                            </div>
+
                             <div className="country">
+                            <div className = "tooltip tooltip__country">
                                 <select required className={selectClassName} 
                                     value = {this.state.country}
                                     onChange={this.handleSelectChange} >
                                     <option className="option-disabled" disabled>Country</option>
                                     {options}
                                 </select>
+                                <span className={"tooltiptext-hidden"}>Please enter country</span>
+                                </div>
+
+                             <div className = "tooltip tooltip__zip">
                                 <input type="number" placeholder="ZIP" required 
                                     value = {this.state.zip}
                                     onChange={this.onZipChange} 
                                     className={this.state.zipValid===false?'input-invalid':'input-valid'}/>
+                                    <span className={"tooltiptext-hidden"}>Please enter zip</span>
+                              </div>
                             </div>
                             <input type="submit" onClick={this.handleSubmit} value="Continue" />
                         </form>

@@ -31,11 +31,6 @@ export default class Summary extends Component {
                 <div className={disabledClassName}>
                     <div className="summary__header"><h2>Order Summary</h2><span>edit order</span></div>
                     {items}
-                    {/* <Item   img={this.state.images[0]} 
-                            name={this.state.names[0]} 
-                            details={this.state.details[0]} 
-                            quantity={this.state.quanities[0]} 
-                            price={this.state.prices[0]} /> */}
                     <div className="subtotal">
                         <span>Subtotal</span><span>$398</span>
                     </div>

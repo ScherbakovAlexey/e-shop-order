@@ -60,6 +60,7 @@ export default class BillingCard extends Component {
                    cityValid: !this.state.cityValid ? false : true,
                    countryValid: !this.state.countryValid ? false : true,
                    zipValid: !this.state.zipValid ? false : true,
+                   formValid: false
                });
            }
     }
@@ -156,6 +157,21 @@ export default class BillingCard extends Component {
         });
     }
 
+    componentDidUpdate() {
+        if (document.getElementsByClassName('tooltiptext').length){
+            document.getElementsByClassName('tooltiptext')[0].classList.add("tooltiptext-hidden");
+            document.getElementsByClassName('tooltiptext')[0].classList.remove("tooltiptext");
+            this.setState({
+                formValid: ''
+            });
+        }
+     
+        if (this.state.formValid===false && document.getElementsByClassName('input-invalid').length){
+            document.getElementsByClassName('input-invalid')[0].nextSibling.classList.add("tooltiptext");
+            document.getElementsByClassName('input-invalid')[0].nextSibling.classList.remove("tooltiptext-hidden");
+        }
+    }
+
     render(){
         //console.log('NAME: ', this.props.info.name);
         const geoImg = this.props.geoEn ? geoEn : geoDis;
@@ -173,36 +189,61 @@ export default class BillingCard extends Component {
                         <form>
                             <h1>Billing Information <span onClick={this.fillFields} className='biling__same'>Same as shipping</span></h1>
                             <h2>Billing Contact</h2>
-                            <div className = {this.state.nameValid===false? "tooltip" : ''}>
+
+                            <div className = "tooltip">
                             <input type="text" placeholder="Full Name" value={this.state.name} required
                                 onChange={this.onNameChange} 
                                 className={this.state.nameValid===false?'input-invalid':'input-valid'} />
-                                <span className={this.state.nameValid===false? "tooltiptext" : 'tooltiptext-hidden'}>Please enter recipient full name</span>
+                                <span className='tooltiptext-hidden'>Please enter recipient full name</span>
                             </div>
+
+                            <div className = "tooltip">
                             <input type="text" placeholder="Email Address" required
                                 onChange={this.onEmailChange} 
                                 className={this.state.emailValid===false?'input-invalid':'input-valid'} />
+                                <span className={"tooltiptext-hidden"}>Please enter recipient email</span>
+                            </div>
+
                             <h2>Billing Address</h2>
+
+                            <div className = "tooltip">
                             <input type="text" placeholder="Street Address" value={this.state.street} required 
                                 onChange={this.onStreetChange} 
                                 className={this.state.streetValid===false?'input-invalid':'input-valid'}/>
+                                <span className={"tooltiptext-hidden"}>Please enter recipient street</span>
+                            </div>    
+
                             <input type="text" placeholder="Apt, Suite, Bldg, Gate Code (optional)" value={this.state.address}
                                 onChange={this.onAddressChange} />
-                            <div className="input-with-img"> <input type="text" placeholder="City" value={this.state.city} required 
+
+                            <div className="input-with-img"> 
+                            <div className = "tooltip">
+                            <input type="text" placeholder="City" value={this.state.city} required 
                                 onChange={this.onCityChange} 
-                                className={this.state.cityValid===false?'input-invalid':'input-valid'}/> 
+                                className={this.state.cityValid===false?'input-invalid':'input-valid'}/>
+                                <span className={"tooltiptext-hidden"}>Please enter city</span>
                                 <img src={geoImg} alt='img'></img> 
                             </div>
+                            </div>
+
                             <div className="country">
+                            <div className = "tooltip tooltip__country">
                                 <select required className={selectClassName} value={this.state.country}
                                     onChange={this.handleSelectChange} >
                                     <option className="option-disabled" disabled>Country</option>
                                     {options}
                                 </select>
+                                <span className={"tooltiptext-hidden"}>Please enter country</span>
+                            </div>
+
+                            <div className = "tooltip tooltip__zip">
                                 <input type="number" placeholder="ZIP" value={this.state.zip} required 
                                     onChange={this.onZipChange} 
                                     className={this.state.zipValid===false?'input-invalid':'input-valid'}/>
+                                    <span className={"tooltiptext-hidden"}>Please enter zip</span>
                             </div>
+                            </div>
+                            
                             <input type="submit" onClick={this.handleSubmit} value="Continue" />
                         </form>
                     </div>

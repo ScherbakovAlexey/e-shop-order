@@ -18,7 +18,8 @@ export default class PaymentCard extends Component {
             expDate: '',
             expDateValid: '',
             secCode: '',
-            secCodeValid: ''
+            secCodeValid: '',
+            formValid: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onNameChange =this.onNameChange.bind(this);
@@ -37,7 +38,8 @@ export default class PaymentCard extends Component {
                    nameValid: !this.state.nameValid ? false : true,
                    cardValid: !this.state.cardValid ? false : true,
                    expDateValid: !this.state.expDateValid ? false : true,
-                   secCodeValid: !this.state.secCodeValid ? false : true
+                   secCodeValid: !this.state.secCodeValid ? false : true,
+                   formValid: false
                });
            }
     }
@@ -94,6 +96,21 @@ export default class PaymentCard extends Component {
         }
     }
 
+    componentDidUpdate() {
+        if (document.getElementsByClassName('tooltiptext').length){
+            document.getElementsByClassName('tooltiptext')[0].classList.add("tooltiptext-hidden");
+            document.getElementsByClassName('tooltiptext')[0].classList.remove("tooltiptext");
+            this.setState({
+                formValid: ''
+            });
+        }
+     
+        if (this.state.formValid===false && document.getElementsByClassName('input-invalid').length){
+            document.getElementsByClassName('input-invalid')[0].nextSibling.classList.add("tooltiptext");
+            document.getElementsByClassName('input-invalid')[0].nextSibling.classList.remove("tooltiptext-hidden");
+        }
+    }
+
     render(){
         const cardImg = visa; //this.state.cardType === 'visa' ? visa : '';
         const imgVisible = this.state.cardType === 'visa' ? 'img-visible' : 'img-hidden';
@@ -106,32 +123,49 @@ export default class PaymentCard extends Component {
                             <h1>Payment</h1>
                             <p className="pay-secure"><img src={secureImg} alt='img'></img>This is a secure 128-bit SSL encrypted payment</p>
                             <h2>Cardholder Name</h2>
+
+                            <div className = "tooltip">
                             <input type="text" placeholder="Name as it appears on your card" required
                                 onChange={this.onNameChange} 
                                 className={this.state.nameValid===false?'input-invalid':'input-valid'} />
+                                <span className='tooltiptext-hidden'>Please enter cardholder name</span>
+                            </div>
+
                             <h2>Card Number</h2>
+
                             <div className="input-with-img">
+                            <div className = "tooltip">
                                 <input type="number" placeholder="XXXX XXXX XXXX XXXX XXXX" required 
                                     onChange={this.onCardChange} 
                                     className={this.state.cardValid===false?'input-invalid':'input-valid'}/>
+                                    <span className='tooltiptext-hidden'>Please enter card number</span>
                                 <img src={cardImg} className={imgVisible} alt='img'></img> 
                             </div>
+                            </div>
+
                             <div className="card-attributes">
                                 <div className="card-attributes__expdate">
                                     <h2>Expire Date</h2>
-                                    <div> <input type="text" placeholder="MM / YY" required 
+
+                                    <div className = "tooltip"> <input type="text" placeholder="MM / YY" required 
                                             value = {this.state.expDate}
                                             maxLength = "5"
                                             onChange={this.onExpDateChange} 
                                             className={this.state.expDateValid===false?'input-invalid':'input-valid'}/> 
+                                            <span className='tooltiptext-hidden'>Please enter expire date</span>
                                     </div>
+
                                 </div>
                                 <div className="card-attributes__seccode">
                                     <h2>Security Code</h2>
-                                    <div> <input type="number" required 
+
+                                    <div className = "tooltip">
+                                         <input type="number" required 
                                         onChange={this.onSecCodeChange} 
                                         className={this.state.secCodeValid===false?'input-invalid':'input-valid'}/>  
+                                        <span className='tooltiptext-hidden'>Please enter security code</span>
                                     </div>
+
                                 </div>
                             </div>
                             <input type="submit" onClick={this.handleSubmit} value="Pay Securely" />
